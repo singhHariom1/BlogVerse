@@ -5,27 +5,59 @@ import Navbar from "../components/Navbar";
 import Moment from "moment";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
+import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 
 const Blog = () => {
   const { id } = useParams();
 
+  const { axios } = useAppContext();
+
   const [data, setData] = useState(null);
   const [comments, setComments] = useState([]);
-
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
 
   const fetchBlogData = async () => {
-    const data = blog_data.find((item) => item._id === id);
-    setData(data);
+    try {
+      const { data } = await axios.get(`/api/blog/${id}`);
+      data.success ? setData(data.blog) : toast.error(data.message);
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   const fetchComments = async () => {
-    setComments(comments_data);
+    try {
+      const { data } = await axios.post("api/blog/comments", { blogId: id });
+      if (data.success) {
+        setComments(data.comments);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   const addComment = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await axios.post("api/blog/add-comment", {
+        blog: id,
+        name,
+        content,
+      });
+      if (data.success) {
+        toast.success(data.message);
+        setName("");
+        setContent("");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(data.message);
+    }
   };
 
   useEffect(() => {
@@ -51,7 +83,7 @@ const Blog = () => {
         </h1>
         <h2 className="my-5 max-w-lg truncate mx-auto">{data.subTitle}</h2>
         <p className="inline-block py-1 px-4 rounded-full mb-6 border text-sm border-primary/35 bg-primary/5 font-medium text-primary">
-          Michael Brown
+          {data.author}
         </p>
       </div>
 
@@ -123,10 +155,41 @@ const Blog = () => {
           <p className="font-semibold my-4">
             Share this article on social media
           </p>
-          <div className="flex">
-            <img src={assets.facebook_icon} width={50} alt="" />
-            <img src={assets.twitter_icon} width={50} alt="" />
-            <img src={assets.googleplus_icon} width={50} alt="" />
+          <div className="flex gap-4">
+            <button
+              onClick={() => {
+                const url = encodeURIComponent(window.location.href);
+                const text = encodeURIComponent(data.title);
+                window.open(
+                  `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+                  "_blank"
+                );
+              }}
+              className="hover:scale-110 transition-transform cursor-pointer"
+            >
+              <img
+                src={assets.facebook_icon}
+                width={50}
+                alt="Share on Facebook"
+              />
+            </button>
+            <button
+              onClick={() => {
+                const url = encodeURIComponent(window.location.href);
+                const text = encodeURIComponent(data.title);
+                window.open(
+                  `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
+                  "_blank"
+                );
+              }}
+              className="hover:scale-110 transition-transform cursor-pointer"
+            >
+              <img
+                src={assets.twitter_icon}
+                width={50}
+                alt="Share on Twitter"
+              />
+            </button>
           </div>
         </div>
       </div>

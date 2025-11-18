@@ -1,4 +1,4 @@
-import { assets, footer_data } from "../assets/assets";
+import { assets } from "../assets/assets";
 
 const Footer = () => {
   return (
@@ -7,34 +7,75 @@ const Footer = () => {
         <div>
           <img src={assets.logo} alt="logo" className="w-32 sm:w-44" />
           <p className="max-w-[410px] mt-6">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum unde
-            quaerat eveniet cumque accusamus atque qui error quo enim fugiat?
+            A modern blog platform where ideas come to life. Share your
+            thoughts, discover new perspectives, and connect with a community of
+            writers and readers. From technology insights to personal stories,
+            every voice matters.
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-between w-full md:w-[45%] gap-5">
-          {footer_data.map((section, index) => (
-            <div key={index}>
-              <h3 className="font-semibold text-base text-gray-900 md:mb-5 mb-2">
-                {section.title}
-              </h3>
-              <ul className="text-sm space-y-1">
-                {section.links.map((link, i) => (
-                  <li key={i}>
-                    <a href="#" className="hover:underline transition">
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        <div className="flex justify-end w-full md:w-[45%]">
+          <div className="min-w-[200px]">
+            <h3 className="font-semibold text-base text-gray-900 md:mb-5 mb-2">
+              Connect
+            </h3>
+            <ul className="text-sm space-y-1">
+              <li>
+                <a
+                  href="https://github.com/singhHariom1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline transition"
+                >
+                  GitHub
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.linkedin.com/in/hariom-singh6199/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline transition"
+                >
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://x.com/BarbellToBinary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline transition"
+                >
+                  X (Twitter)
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.instagram.com/barbell2binary/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline transition"
+                >
+                  Instagram
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:singh.hariom6199@gmail.com"
+                  className="hover:underline transition"
+                >
+                  Email
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <p className="py-4 text-center text-sm md:text-base text-gray-500/80">
-        Copyright 2025 © QuickBlog{" "}
-        <span className="font-bold text-primary">BarbellToBinary</span>
-        &nbsp;&mdash; All Rights Reserved.
+        Designed and developed by{" "}
+        <span className="font-bold text-primary">Hariom Singh</span>
+        &nbsp;• {new Date().getFullYear()} • All Rights Reserved.
       </p>
     </div>
   );
